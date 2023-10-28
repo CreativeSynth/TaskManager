@@ -14,6 +14,9 @@
 - ko_quiz_8: 한국어 신조어 능력 평가
 - summarization: 한 문장으로 요약문 생성 능력 평가
 - spelling_correct: 문장 맞춤법 교정 능력 평가
+- Reasoning: 문단 읽고 Question Answering 능력 평가
+- nli: 전제 조건과 가설이 서로 모순되는지 확인하는 능력 평가
+- translation: 한국어 ↔ 영어 번역 능력 평가
 
 
 ## 모델 api 수집 상황
