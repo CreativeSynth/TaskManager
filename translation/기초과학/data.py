@@ -3,12 +3,12 @@ import json
 import csv
 
 open_directory = "C:\\Users\\1253s\\Desktop\\PythonProject\\Translation\\기초과학\\VL_en"
-write_path = "C:\\Users\\1253s\\Desktop\\PythonProject\\Translation\\기초과학\\data.csv"
+write_path = "C:\\Users\\1253s\\TaskManager\\translation\\기초과학\\data2.csv"
 
 count = 1
 err_count = 0
-writer = csv.writer(open(write_path, "w", newline = '', encoding = 'cp949'))
-writer.writerow(['index', 'Classify_1', 'Classify_2', 'ko', 'en'])
+writer = csv.writer(open(write_path, "wt", newline = '', encoding = 'utf8'))
+writer.writerow(['task_name', 'index', 'ko', 'en', 'attribute'])
 
 for files in os.listdir(open_directory):
     open_file = os.path.join(open_directory, files)
@@ -20,7 +20,7 @@ for files in os.listdir(open_directory):
         for book in raw_data["paragraph"]:
             for sentence in book['sentences']:
                 try:
-                    writer.writerow([book['info']['Index'], book['info']['Classify_1'], book['info']['Classify_2'], sentence['src_sentence'], sentence['tgt_sentence']])
+                    writer.writerow(['translation/basicsci', count, sentence['src_sentence'], sentence['tgt_sentence'], ])
                     count += 1
                 except:
                     err_count += 1
