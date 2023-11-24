@@ -18,10 +18,10 @@ with open(open_file, "rt", encoding="utf-8") as st_json:
             try:
                 if len(qa['answers']) > 0:
                     #writer.writerow([paragraph['paragraphs'][0]['context'], paragraph['news_category'], qa['guid'], qa['question_type'], qa['question'], qa['answers'][0]['text']])
-                    writer.writerow(['reasoning', count, paragraph['paragraphs'][0]['context'] + '\n질문: ' + qa['question'], qa['answers'][0]['text'], qa['question_type']])
+                    writer.writerow(['reasoning', count, paragraph['paragraphs'][0]['context'].replace("\n", " ") + ' 질문: ' + qa['question'], qa['answers'][0]['text'], qa['question_type']])
                 else:
                     #writer.writerow([paragraph['paragraphs'][0]['context'], paragraph['news_category'], qa['guid'], qa['question_type'], qa['question'], qa['plausible_answers'][0]['text']])
-                    writer.writerow(['reasoning', count, paragraph['paragraphs'][0]['context'] + '\n질문: ' + qa['question'], qa['plausible_answers'][0]['text'], qa['question_type']])
+                    writer.writerow(['reasoning', count, paragraph['paragraphs'][0]['context'].replace("\n", " ") + ' 질문: ' + qa['question'], qa['plausible_answers'][0]['text'], qa['question_type']])
                 count += 1
             except:
                 err_count += 1
