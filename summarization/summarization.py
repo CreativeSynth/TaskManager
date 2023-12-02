@@ -20,8 +20,8 @@ for filename in os.listdir(open_directory):
             raw_data = json.load(st_json)
 
             index    = count
-            original = raw_data["Meta(Refine)"]["passage"].replace('\n ', '') + "\n\n이 글을 한국어 한 문장으로 요약해줘."
-            summary  = raw_data["Annotation"]["summary1"]
+            original = "다음 글을 한국어 한 문장으로 요약해줘: " + raw_data["Meta(Refine)"]["passage"].replace('\n', ' ')
+            summary  = raw_data["Annotation"]["summary1"].replace('\n', ' ')
 
             try:
                 writer.writerow(['summarization', index, original, summary])
