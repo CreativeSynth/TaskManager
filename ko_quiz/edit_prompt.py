@@ -149,28 +149,27 @@ def update_eight(row):
     return row
 
 # update quiz 1 again
-def update_one_again(row):
-    answer_part = ''
-    # Check if select2 is available and not already part of the question
-    if pd.notna(row['select2']) and row['select2'] not in row['question']:
-        answer_part = row['select2']
-    # Check if select1 is available and not already part of the question
-    elif pd.notna(row['select1']) and row['select1'] not in row['question']:
-        answer_part = row['select1']
+def update_one_again(dataframe):
+    renamed_data = dataframe.rename(columns={'id': 'task_name', 'question': 'prompt', 'answer': 'answer', 'category': 'attribute'})
 
-    # Modify the question if an answer part is available
-    if answer_part:
-        row['question'] = f"'{answer_part}'에서 {row['question']}"
+    # Create a new 'index' column
+    renamed_data.insert(1, 'index', range(len(renamed_data)))
+
+    # Drop unnecessary columns ('select1', 'select2', 'select3', 'select4')
+    final_data = renamed_data.drop(columns=['select1', 'select2', 'select3', 'select4'])
+
+    # Set 'task_name' to a constant value as per the template
+    final_data['task_name'] = 'ko_quiz_1'
     
-    return row
+    return final_data
 
 # Load the CSV file
 input_data_dir = 'ko_quiz_1.csv'  # File to be updated
 data = pd.read_csv(input_data_dir)
 
 # Apply the update function to each row
-new_data = data.apply(update_one_again, axis=1) # Function matching the quiz number
+new_data = update_one_again(data) # Function matching the quiz number
 
 # Save the modified data to a new CSV file
-output_file = input_data_dir.replace('.csv', '_edit.csv')
+output_file = input_data_dir
 new_data.to_csv(output_file, index=False, encoding='utf-8-sig')
