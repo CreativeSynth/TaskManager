@@ -148,13 +148,29 @@ def update_eight(row):
 
     return row
 
+# update quiz 1 again
+def update_one_again(row):
+    answer_part = ''
+    # Check if select2 is available and not already part of the question
+    if pd.notna(row['select2']) and row['select2'] not in row['question']:
+        answer_part = row['select2']
+    # Check if select1 is available and not already part of the question
+    elif pd.notna(row['select1']) and row['select1'] not in row['question']:
+        answer_part = row['select1']
+
+    # Modify the question if an answer part is available
+    if answer_part:
+        row['question'] = f"'{answer_part}'에서 {row['question']}"
+    
+    return row
+
 # Load the CSV file
-input_data_dir = 'old/ko_quiz_8.csv'  # File to be updated
+input_data_dir = 'ko_quiz_1.csv'  # File to be updated
 data = pd.read_csv(input_data_dir)
 
 # Apply the update function to each row
-new_data = data.apply(update_eight, axis=1) # Function matching the quiz number
+new_data = data.apply(update_one_again, axis=1) # Function matching the quiz number
 
 # Save the modified data to a new CSV file
-output_file = input_data_dir.replace('old/', '')
+output_file = input_data_dir.replace('.csv', '_edit.csv')
 new_data.to_csv(output_file, index=False, encoding='utf-8-sig')
