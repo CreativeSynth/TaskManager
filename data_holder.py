@@ -1,4 +1,5 @@
 import pandas as pd
+import random
 
 class DataHolder:
     def __init__(self):
@@ -15,6 +16,9 @@ class DataHolder:
     
     def reset(self):
         self.data = []
+    
+    def random_sample(self, sample_size):
+        self.data = random.sample(self.data, sample_size)
 
     def save_to_csv(self, csv_filename):
         df = pd.DataFrame(self.data)
