@@ -4,7 +4,7 @@
 
 https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=545 이곳에서 데이터를 다운받아서
 
-원천데이터를 압출 해제 합니다.
+원천데이터를 압축 해제 합니다.
 
 `글짓기`, `대안제시`, `설명글`, `주장`, `찬성반대` 의 5개 폴더가 있습니다.
 현재는 용량상 폴더를 전부 지워놨습니다. 폴더를 전부 옮겨놓고 setup.py를 실행하면 갱신 됩니다.
