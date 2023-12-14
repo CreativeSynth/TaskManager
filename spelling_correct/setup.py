@@ -4,11 +4,13 @@ from tqdm import tqdm
 import sys
 sys.path.append('../')
 from data_holder import DataHolder
+from hanspell import spell_checker
+import time
 
 folder_name_list = ["글짓기", "대안제시", "설명글", "주장", "찬성반대"]
 
 def to_prompt(sentance):
-    return f"내가 아래에 제공하는 문장의 맞춤법을 교정해 줘.\n\n{sentance}\n\n위 문장에서 맞춤법을 교정하여 적어줘. 전체 문장을 [ ] 대괄호 안에 넣어서 출력해줘."
+    return f"내가 다음에 제공하는 문장의 맞춤법을 교정한 후 전체 문장을 [ ] 로 감싸서 출력해줘. {sentance}"
 
 def parsing(json_data):
     sentance = json_data['essay_txt']
@@ -47,7 +49,26 @@ if __name__ == '__main__':
         # read folder
         processed_list = process(folder_name)
         for data in processed_list:
-            holder.add_data("spelling_correct", to_prompt(data), "", attribute=folder_name)
+            if len(data) > 450: # 너무 긴 문자는 맞춤법 검사가 불가능하므로 제외.
+                continue
+            holder.add_data("spelling_correct", to_prompt(data), data, attribute=folder_name)
 
     print("수집한 데이터 총 길이 = ", len(holder))
+    holder.random_sample(1000) # Change this to the desired sample size
+    print("샘플링 후 데이터 총 길이 = ", len(holder))
+
+    for i in tqdm(range(len(holder.data))):
+        prompt = holder.data[i]["answer"]
+        answer = "err"
+        cnt = 0
+        while(cnt < 9):
+            try:
+                answer = spell_checker.check([prompt])[0].checked
+                break
+            except:
+                cnt+=1
+                time.sleep(0.1)
+                print(f"errr on {prompt}")
+        holder.data[i]["answer"] = answer
+
     holder.save_to_csv("spelling_correct.csv")
