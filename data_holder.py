@@ -19,6 +19,8 @@ class DataHolder:
     
     def random_sample(self, sample_size):
         self.data = random.sample(self.data, sample_size)
+        for i in range(len(self.data)):
+            self.data[i]["index"] = i
 
     def save_to_csv(self, csv_filename):
         df = pd.DataFrame(self.data)
